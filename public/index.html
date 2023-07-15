@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket Demo App</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="main-section-she">
+      <div class="main-chat-container">
+        <div class="heading">
+          <h3 class="chat-heading">RCPIT Katta🔥</h3>
+          <div class="line-of-chat"></div>
+        </div>
+        <div id="chat-container">
+          
+        </div>
+      </div>
+
+      <div id="send-container">
+        <form id="form">
+          <!-- only connected users -->
+          <select name="connected-usersDropDown" id="connected-usersDropDown">
+            <!-- <option value="none" disabled selected>---SELECT---</option> -->
+          </select>
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Enter your message here..."
+          />
+          <button type="submit" id="send-button">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
