@@ -27,7 +27,7 @@ io.on("connection", (socket) => {
       return;
     }
     setUserData(userName, socket);
-    io.emit("user-connected", Object.keys(getUserAllData()));
+    io.emit("user-connected", Object.keys(getUserAllData()), userName);
 
     socket.on("disconnect", () => {
       console.log("User disconnected!");

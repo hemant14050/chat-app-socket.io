@@ -16,7 +16,7 @@ if(userName === null || userName === "") {
     });
 }
 
-socket.on("user-connected", (connectedUsers) => {
+socket.on("user-connected", (connectedUsers, username) => {
     connectedUsersDropDown.innerHTML = "";
     let option = document.createElement("option");
     option.text = "Everyone";
@@ -28,6 +28,7 @@ socket.on("user-connected", (connectedUsers) => {
             connectedUsersDropDown.add(option);
         }
     });
+    chatContainer.innerHTML += `<p class="someone-joined"><span class="username-jjll">${userName === username? "You":username }</span> Joined chat!</p>`;
 });
 
 socket.on("user-disconnected", (username) => {
@@ -36,6 +37,7 @@ socket.on("user-disconnected", (username) => {
             connectedUsersDropDown.remove(i);
         }
     }
+    chatContainer.innerHTML += `<p class="someone-joined"><span class="username-jjll">${userName === username? "You":username }</span> Leaved chat!</p>`;
 });
 
 chatForm.addEventListener("submit", (e) => {

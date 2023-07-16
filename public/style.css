@@ -72,6 +72,18 @@ body {
     width: max-content;
 }
 
+.someone-joined {
+    font-size: 10px;
+    text-align: center;
+    color: rgb(75, 73, 73);
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.username-jjll {
+    color: red;
+}
+
 #chat-container > .receive-msg > .from-msg {
     position: absolute;
     left: 0;
