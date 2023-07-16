@@ -4,6 +4,7 @@ const chatForm = document.getElementById("form");
 const chatContainer = document.getElementById("chat-container");
 const mainChatContainer = document.querySelector(".main-chat-container");
 const onlineCounter = document.querySelector(".online-count");
+const imageInput = document.getElementById("imageIP");
 
 const userName = prompt("What is your name?");
 if(userName === null || userName === "") {
@@ -79,4 +80,46 @@ socket.on("private-chat-message", (data) => {
     chatContainer.appendChild(span);
     // chatContainer.scrollTop = chatContainer.scrollHeight;
     mainChatContainer.scrollTop = mainChatContainer.scrollHeight;
+});
+
+imageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+        const selectedUser = connectedUsersDropDown.value;
+        if(selectedUser === "Everyone") {
+            socket.emit("image-message", {image: reader.result, userName: userName});
+        } else {
+            socket.emit("private-image-message", {image: reader.result, userName: userName, selectedUser: selectedUser});
+        }
+    }
+});
+
+socket.on("image-message", (data) => {
+    const span = document.createElement("span");
+    span.className = data.userName === userName? "send-msg-image":"receive-msg-image";
+    span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>From: ${data.userName}</p>\n`;
+    span.innerHTML += `<img src="${data.image}" class="chat-image">`;
+    span.innerHTML += `<p class="whom-msg">To Everyone</p>`;
+    chatContainer.appendChild(span);
+    setTimeout(() => {
+        mainChatContainer.scrollTop = mainChatContainer.scrollHeight;
+    }, 300);
+});
+
+socket.on("private-image-message", (data) => {
+    const span = document.createElement("span");
+    span.className = data.userName === userName? "send-msg-image":"receive-msg-image";
+    span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>From: ${data.userName}</p>\n`;
+    span.innerHTML += `<img src="${data.image}" class="chat-image">`;
+    if(data.userName === userName) {
+        span.innerHTML += `<p class="whom-msg">To ${data.selectedUser}</p>`;
+    } else {
+        span.innerHTML += `<p class="whom-msg">To Private</p>`;
+    }
+    chatContainer.appendChild(span);
+    setTimeout(() => {
+        mainChatContainer.scrollTop = mainChatContainer.scrollHeight;
+    }, 300);
 });
