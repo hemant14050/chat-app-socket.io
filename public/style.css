@@ -45,8 +45,9 @@ body {
     margin: 10px;
     max-width: 60%;
     position: relative;
-    margin-top: 20px;
+    margin-top: 25px;
     word-wrap: break-word;
+    /* border: 2px dashed #ddd; */
 }
 
 #chat-container > .receive-msg {
@@ -57,24 +58,45 @@ body {
     margin: 10px;
     max-width: 60%;
     position: relative;
-    margin-top: 20px;
+    margin-top: 25px;
     word-wrap: break-word;
+    /* border: 2px dashed #79da8a; */
 }
 
 #chat-container > .send-msg > .from-msg {
     position: absolute;
     right: 0;
-    top: -26px;
+    top: -28px;
     font-size: 12px;
     color: black;
+    width: max-content;
 }
 
 #chat-container > .receive-msg > .from-msg {
     position: absolute;
     left: 0;
-    top: -26px;
+    top: -28px;
     font-size: 12px;
     color: black;
+    width: max-content;
+}
+
+#chat-container > .send-msg > .whom-msg {
+    width: max-content;
+    position: absolute;
+    bottom: -1.6rem;
+    right: 0;
+    color: red;
+    font-size: 10px;
+}
+
+#chat-container > .receive-msg > .whom-msg {
+    width: max-content;
+    position: absolute;
+    bottom: -1.6rem;
+    left: 0;
+    color: red;
+    font-size: 10px;
 }
 
 #send-container {
@@ -141,6 +163,14 @@ body {
     color: white;
     border: none;
     outline: none;
+}
+
+#form > button:hover {
+    cursor: pointer;
+}
+
+#form > select:hover {
+    cursor: pointer;
 }
 
 #form > select {

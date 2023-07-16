@@ -53,8 +53,9 @@ chatForm.addEventListener("submit", (e) => {
 socket.on("chat-message", (data) => {
     const span = document.createElement("span");
     span.className = data.userName === userName? "send-msg":"receive-msg";
-    span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>${data.userName}</p>\n`;
+    span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>From: ${data.userName}</p>\n`;
     span.innerHTML += data.message;
+    span.innerHTML += `<p class="whom-msg">To Everyone</p>`;
     chatContainer.appendChild(span);
     // chatContainer.scrollTop = chatContainer.scrollHeight;
     mainChatContainer.scrollTop = mainChatContainer.scrollHeight;
@@ -63,8 +64,13 @@ socket.on("chat-message", (data) => {
 socket.on("private-chat-message", (data) => {
     const span = document.createElement("span");
     span.className = data.userName === userName? "send-msg":"receive-msg";
-    span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>${data.userName}</p>\n`;
+    span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>From: ${data.userName}</p>\n`;
     span.innerHTML += data.message;
+    if(data.userName === userName) {
+        span.innerHTML += `<p class="whom-msg">To ${data.selectedUser}</p>`;
+    } else {
+        span.innerHTML += `<p class="whom-msg">To Private</p>`;
+    }
     chatContainer.appendChild(span);
     // chatContainer.scrollTop = chatContainer.scrollHeight;
     mainChatContainer.scrollTop = mainChatContainer.scrollHeight;
