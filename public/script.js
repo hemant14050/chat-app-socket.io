@@ -3,6 +3,7 @@ const connectedUsersDropDown = document.getElementById("connected-usersDropDown"
 const chatForm = document.getElementById("form");
 const chatContainer = document.getElementById("chat-container");
 const mainChatContainer = document.querySelector(".main-chat-container");
+const onlineCounter = document.querySelector(".online-count");
 
 const userName = prompt("What is your name?");
 if(userName === null || userName === "") {
@@ -28,6 +29,7 @@ socket.on("user-connected", (connectedUsers, username) => {
             connectedUsersDropDown.add(option);
         }
     });
+    onlineCounter.innerHTML = connectedUsers.length;
     chatContainer.innerHTML += `<p class="someone-joined"><span class="username-jjll">${userName === username? "You":username }</span> Joined chat!</p>`;
 });
 
@@ -37,7 +39,8 @@ socket.on("user-disconnected", (username) => {
             connectedUsersDropDown.remove(i);
         }
     }
-    chatContainer.innerHTML += `<p class="someone-joined"><span class="username-jjll">${userName === username? "You":username }</span> Leaved chat!</p>`;
+    onlineCounter.innerHTML = connectedUsersDropDown.length;
+    chatContainer.innerHTML += `<p class="someone-joined"><span class="username-jjll">${userName === username? "You":username }</span> Left chat!</p>`;
 });
 
 chatForm.addEventListener("submit", (e) => {

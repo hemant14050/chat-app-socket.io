@@ -80,6 +80,21 @@ body {
     margin-bottom: 6px;
 }
 
+.online-count {
+    position: absolute;
+    background-color: black;
+    padding: 7px;
+    left: 4px;
+    top: 4px;
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .username-jjll {
     color: red;
 }
