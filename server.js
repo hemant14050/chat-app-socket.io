@@ -55,14 +55,6 @@ io.on("connection", (socket) => {
       getUserData(data.selectedUser)?.emit("image-message", data);
     }
   });
-
-  socket.on("user-typing", (data) => {
-    if(data.selectedUser === "Everyone") {
-      io.emit("user-typing", data);
-    } else {
-      getUserData(data.selectedUser)?.emit('user-typing', data);
-    }
-  });
   
 });
 
