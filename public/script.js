@@ -5,6 +5,7 @@ const chatContainer = document.getElementById("chat-container");
 const mainChatContainer = document.querySelector(".main-chat-container");
 const onlineCounter = document.querySelector(".online-count");
 const imageInput = document.getElementById("imageIP");
+const messageInput = document.getElementById("message-input");
 
 const userName = prompt("What is your name?");
 if(userName === null || userName === "") {
@@ -46,14 +47,10 @@ socket.on("user-disconnected", (username) => {
 
 chatForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const message = document.getElementById("message-input").value;
+    const message = messageInput.value;
     const selectedUser = connectedUsersDropDown.value;
-    if(selectedUser === "Everyone") {
-        socket.emit("chat-message", {message: message, userName: userName});
-    } else {
-        socket.emit("private-chat-message", {message: message, userName: userName, selectedUser: selectedUser});
-    }
-    document.getElementById("message-input").value = "";
+    socket.emit("chat-message", {message: message, userName: userName, selectedUser: selectedUser});
+    messageInput.value = "";
 });
 
 socket.on("chat-message", (data) => {
@@ -61,21 +58,10 @@ socket.on("chat-message", (data) => {
     span.className = data.userName === userName? "send-msg":"receive-msg";
     span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>From: ${data.userName}</p>\n`;
     span.innerHTML += data.message;
-    span.innerHTML += `<p class="whom-msg">To Everyone</p>`;
-    chatContainer.appendChild(span);
-    // chatContainer.scrollTop = chatContainer.scrollHeight;
-    mainChatContainer.scrollTop = mainChatContainer.scrollHeight;
-});
-
-socket.on("private-chat-message", (data) => {
-    const span = document.createElement("span");
-    span.className = data.userName === userName? "send-msg":"receive-msg";
-    span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>From: ${data.userName}</p>\n`;
-    span.innerHTML += data.message;
     if(data.userName === userName) {
         span.innerHTML += `<p class="whom-msg">To ${data.selectedUser}</p>`;
     } else {
-        span.innerHTML += `<p class="whom-msg">To Private</p>`;
+        span.innerHTML += `<p class="whom-msg">To ${data.selectedUser === "Everyone"? "Everyone":"Private"}</p>`;
     }
     chatContainer.appendChild(span);
     // chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -88,11 +74,7 @@ imageInput.addEventListener("change", (e) => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
         const selectedUser = connectedUsersDropDown.value;
-        if(selectedUser === "Everyone") {
-            socket.emit("image-message", {image: reader.result, userName: userName});
-        } else {
-            socket.emit("private-image-message", {image: reader.result, userName: userName, selectedUser: selectedUser});
-        }
+        socket.emit("image-message", {image: reader.result, userName: userName, selectedUser: selectedUser});
     }
 });
 
@@ -101,22 +83,10 @@ socket.on("image-message", (data) => {
     span.className = data.userName === userName? "send-msg-image":"receive-msg-image";
     span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>From: ${data.userName}</p>\n`;
     span.innerHTML += `<img src="${data.image}" class="chat-image">`;
-    span.innerHTML += `<p class="whom-msg">To Everyone</p>`;
-    chatContainer.appendChild(span);
-    setTimeout(() => {
-        mainChatContainer.scrollTop = mainChatContainer.scrollHeight;
-    }, 300);
-});
-
-socket.on("private-image-message", (data) => {
-    const span = document.createElement("span");
-    span.className = data.userName === userName? "send-msg-image":"receive-msg-image";
-    span.innerHTML = data.userName === userName? "<p class='from-msg'>You</p>\n":`<p class='from-msg'>From: ${data.userName}</p>\n`;
-    span.innerHTML += `<img src="${data.image}" class="chat-image">`;
     if(data.userName === userName) {
         span.innerHTML += `<p class="whom-msg">To ${data.selectedUser}</p>`;
     } else {
-        span.innerHTML += `<p class="whom-msg">To Private</p>`;
+        span.innerHTML += `<p class="whom-msg">To ${data.selectedUser === "Everyone"? "Everyone":"Private"}</p>`;
     }
     chatContainer.appendChild(span);
     setTimeout(() => {

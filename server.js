@@ -38,23 +38,30 @@ io.on("connection", (socket) => {
   });
 
   socket.on("chat-message", (data) => {
-    io.emit("chat-message", data);
-  });
-
-  socket.on("private-chat-message", (data) => {
-    socket.emit("private-chat-message", data);
-    getUserData(data.selectedUser)?.emit("private-chat-message", data);
+    if(data.selectedUser === "Everyone") {
+      io.emit("chat-message", data);
+    } else {
+      socket.emit("chat-message", data);
+      getUserData(data.selectedUser)?.emit("chat-message", data);
+    }
   });
 
   socket.on("image-message", (data) => {
-    // fs.writeFileSync("image.png", data.image);
-    io.emit("image-message", data);
+    if(data.selectedUser == "Everyone") {
+      io.emit("image-message", data);
+    } else {
+      // fs.writeFileSync("image1.png", data.image);
+      socket.emit("image-message", data);
+      getUserData(data.selectedUser)?.emit("image-message", data);
+    }
   });
 
-  socket.on("private-image-message", (data) => {
-    // fs.writeFileSync("image1.png", data.image);
-    socket.emit("private-image-message", data);
-    getUserData(data.selectedUser)?.emit("private-image-message", data);
+  socket.on("user-typing", (data) => {
+    if(data.selectedUser === "Everyone") {
+      io.emit("user-typing", data);
+    } else {
+      getUserData(data.selectedUser)?.emit('user-typing', data);
+    }
   });
   
 });

@@ -41,6 +41,7 @@ body {
     background-color: #4CAF50;
     color: white;
     border-radius: 10px;
+    border-top-right-radius: 0;
     padding: 10px;
     margin: 10px;
     max-width: 60%;
@@ -54,6 +55,7 @@ body {
     align-self: flex-start;
     background-color: #ddd;
     border-radius: 10px;
+    border-top-left-radius: 0;
     padding: 10px;
     margin: 10px;
     max-width: 60%;
