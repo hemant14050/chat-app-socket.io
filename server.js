@@ -6,6 +6,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const {setUserData, getUserData, getUserAllData, deleteUserData} = require("./data/usersData.js");
 const fs = require("fs");
+const PORT = 3000;
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
@@ -59,6 +60,6 @@ io.on("connection", (socket) => {
 });
 
 
-server.listen(3000, () => {
-  console.log("listening on *:3000");
+server.listen(PORT, () => {
+  console.log(`Started server at port:${PORT}`);
 });
