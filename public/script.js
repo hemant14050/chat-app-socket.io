@@ -8,7 +8,7 @@ const imageInput = document.getElementById("imageIP");
 const messageInput = document.getElementById("message-input");
 
 const userName = prompt("What is your name?");
-if(userName === null || userName === "") {
+if(userName === null || userName === "" || userName.trim().length === 0) {
     alert("You must enter a name!");
     window.location.reload();
 } else {
